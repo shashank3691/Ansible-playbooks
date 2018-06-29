@@ -1,0 +1,14 @@
+---
+  - hosts: webanddbservers
+    serial: 1
+    become: True
+    tasks:
+        - name: Install apache,git,docker
+          yum:
+            name: "{{item}}"
+            state: present
+          with_items:
+                   - httpd
+                   - git
+                   - docker
+          when: ansible_os_family == "RedHat"
