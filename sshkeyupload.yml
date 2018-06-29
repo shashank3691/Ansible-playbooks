@@ -1,0 +1,10 @@
+---
+  - hosts: dbservers
+    become: True
+    tasks:
+        - name: upload ssh key
+          ec2_key:
+             name: shashank2.pem
+             region: us-east-2c
+             key_material: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0MWuaWGSChe5oa0pCv2JEI8W913Or+MCqB3RLeSCzEysv3QBGkn4cdbrZPCrEkzLPDsSadfgVLDRtNhA7Czllc5GWwb9BBYQQ9s+xhaqVhkvkGOR75yD5b1BOXnTfI396fHvBbGv3rNKHwqmXEpB1RtpqSHWGHTbTJjaAWC7+W7UrAfPUlYI8Pqa0l5rM4J56QBlsNUzCPdFchRPSQcLI2GYjqyq1lzwIGZK2JzQBmCfoqVdw8bO/jlXHoUrw2uW+XkDRBXvrdf/F867r0IXX/p/AGq9BqFp4L2gGEcrqJgz6VEm49E44RqxYMPQyeJmVNGSHrkBdbZTxJq3Z5Hnf root@ip-172-31-38-178'
+             state: present
