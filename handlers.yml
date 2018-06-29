@@ -1,0 +1,26 @@
+---
+  - hosts: webanddbservers
+    become: True
+    tasks:
+        - name: Install apache server
+          yum:
+             name: httpd
+             state: present
+        - name: enable apache on reboot
+          service:
+             name: httpd
+             enabled: yes
+        - name: installing git
+          yum:
+             name: git
+             state: present
+        - name: Deploy service to the apache from git hub
+          git:
+             repo: 'https://github.com/javahometech/javahome-app'
+             dest: /var/www/html/
+          notify: restart the Apache server
+    handlers:
+        - name: restart the Apache server
+          service:
+             name: httpd
+             state: restarted
