@@ -1,0 +1,30 @@
+---
+  - hosts: webanddbservers
+    become: True
+    vars_files:
+       - web-vars.yml
+    tasks:
+        - name: copy httpd.conf to webanddbservers
+          template:
+             src: httpd.conf
+             dest: /etc/httpd/conf/httpd.conf
+        - name: Install apache server
+          yum:
+             name: httpd
+             state: present
+        - name: enable apache on reboot
+          service:
+             name: httpd
+             enabled: yes
+        - name: installing git
+          yum:
+             name: git
+             state: present
+        - name: Deploy service to the apache from git hub
+          git:
+             repo: 'https://github.com/javahometech/javahome-app'
+             dest: /var/www/html
+        - name: restart the Apache server
+          service:
+             name: httpd
+             state: restarted
