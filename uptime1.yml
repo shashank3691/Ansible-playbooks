@@ -1,0 +1,19 @@
+---
+- hosts: appservers
+  remote_user: root
+  become: True
+  tasks:
+    - name: get hostname
+      command: /bin/hostname
+      changed_when: False
+      register: hostname
+
+    - name: get uptime
+      shell: ps -ef | grep java | grep -v grep | awk '{ print $1" "$2 }'
+      changed_when: False
+      register: uptime
+
+    - debug: var={{ item }}
+      with_items:
+        - hostname.stdout
+        - uptime.stdout
