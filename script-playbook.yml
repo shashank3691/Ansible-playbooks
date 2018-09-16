@@ -8,5 +8,5 @@
           script: /home/ubuntu/userscript.sh
         - name: Copy file
           copy: src=/home/ubuntu/python1.py dest=/home/ec2-user/python1.py owner=ec2-user group=ec2-user mode=755
-        - name: Execute script
+        - name: Execute a python script
           command: /usr/bin/python /home/ec2-user/python1.py
