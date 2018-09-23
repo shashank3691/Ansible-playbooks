@@ -1,5 +1,5 @@
 ---
-  - hosts: webanddbservers
+  - hosts: servers
     become: True
     tasks:
         - name: Install apache,git,docker
@@ -10,4 +10,4 @@
                    - httpd
                    - git
                    - docker
-          when: ansible_os_family == "Debain"
+          when: ansible_os_family == "RedHat"
