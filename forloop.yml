@@ -1,5 +1,5 @@
 ---
-  - hosts: servers
+  - hosts: Servers
     become: True
     tasks:
         - name: Install apache,git,docker
