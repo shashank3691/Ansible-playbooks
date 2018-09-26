@@ -1,0 +1,13 @@
+---
+  - hosts: appserver
+    become: True
+    tasks:
+        - name: getting the artifact(.jar) from file
+          aws_s3:
+            aws_access_key: AKIAJEJELV57LD46QDDA
+            aws_secret_key: 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
+            bucket: artifact-storage-bucket
+            object: doc1.txt
+            version: FnhKRBNAeNSWoOzNsUR_K1xv4snmOcvN
+            dest: /var/myfile.txt
+            mode: get
