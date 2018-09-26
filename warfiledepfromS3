@@ -4,8 +4,8 @@
     tasks:
         - name: getting the artifact(.jar) from file
           aws_s3:
-            aws_access_key: AKIAJEJELV57LD46QDDA
-            aws_secret_key: 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
+            aws_access_key: AKIAJEJELV57LD46B5HTTBF
+            aws_secret_key: Og/FUSpofP3LZgcCPkJAIixEE99ZkxQceLybsjfbnjoenotlktbjn
             bucket: artifact-storage-bucket
             object: doc1.txt
             version: FnhKRBNAeNSWoOzNsUR_K1xv4snmOcvN
