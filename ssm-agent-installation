@@ -33,5 +33,5 @@
      shell: systemctl enable amazon-ssm-agent && systemctl start amazon-ssm-agent
      when: version.stdout.find(DISTRIB_RELEASE=16.04)
    - name: Enabling the ssm-agent service start on Reboot and starting ssm-agent service if ubuntu version is 14.04
-     shell: sudo status amazon-ssm-agent && sudo start amazon-ssm-agent
+     shell: service amazon-ssm-agent status && service amazon-ssm-agent status
      when: version.stdout.find(DISTRIB_RELEASE=14.04)
