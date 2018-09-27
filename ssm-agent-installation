@@ -1,0 +1,37 @@
+---
+- hosts: appserver
+  become: true
+  tasks:
+   - name: checking the directory exsists
+     stat:
+        path: /tmp/ssm
+     register: dir_result
+   - name: creating the directory
+     file:
+        path: /tmp/ssm
+        state: directory
+        mode: 0755
+     when: dir_result.stat.exists == False
+   - name: checking the file exsists or not
+     stat:
+        path: /tmp/ssm/amazon-ssm-agent.deb
+     register: stat_result
+   - name: download the ssm agent
+     get_url:
+        url: https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb
+        dest: /tmp/ssm/
+     when: stat_result.stat.exists == False
+   - name: Install SSM agent by changing to ssm directory
+     shell: dpkg -i amazon-ssm-agent.deb
+     args:
+        chdir: /tmp/ssm/
+   - name: checking lsb version
+     command: cat /etc/lsb-release
+     register: version
+     ignore_errors: True
+   - name: Enabling the ssm-agent service start on Reboot and starting ssm-agent service if ubuntu version is 16.04
+     shell: systemctl enable amazon-ssm-agent && systemctl start amazon-ssm-agent
+     when: version.stdout.find(DISTRIB_RELEASE=16.04)
+   - name: Enabling the ssm-agent service start on Reboot and starting ssm-agent service if ubuntu version is 14.04
+     shell: sudo status amazon-ssm-agent && sudo start amazon-ssm-agent
+     when: version.stdout.find(DISTRIB_RELEASE=14.04)
