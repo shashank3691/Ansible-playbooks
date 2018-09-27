@@ -1,0 +1,44 @@
+---
+ - hosts: appserver
+   sudo: true
+   tasks:
+       - name: downloading the binary file
+         get_url:
+             url: https://github.com/Netuitive/zorka/releases/download/v1.2.4/netuitive-zorka.zip
+             dest: /opt/
+       - name: extrscting the tar file
+         unarchive:
+             src: /opt/netuitive-zorka.zip
+             dest: /opt/
+             remote_src: yes
+       - name: modifying the referral engine application
+         lineinfile:
+             path: /opt/netuitive-zorka-1.2.4/zorka.properties
+             regexp: '^zorka.application = '
+             line: 'zorka.application = 18.191.231.142'
+       - name: modifying the referral engine hostname
+         lineinfile:
+             path: /opt/netuitive-zorka-1.2.4/zorka.properties
+             regexp: '^zorka.hostname = '
+             line: 'zorka.hostname = 18.191.231.142'
+       - name: modifying the referral engine api-key id
+         lineinfile:
+             path: /opt/netuitive-zorka-1.2.4/zorka.properties
+             regexp: '^netuitive.api.key = '
+             line: 'netuitive.api.key = key-id'
+         notify:  restart neutitive agent
+       - name: modifying the catalina file
+         lineinfile:
+             path: /usr/share/tomcat/bin/catalina.sh
+             regexp: 'CATALINA_OPTS='
+             line: 'CATALINA_OPTS=PATH'
+          notify: restart tomcat service
+   handlers:
+        - name : restart neutitive agent
+          service:
+             name:  netuitive-agent
+             state: restarted
+        - name : restart tomcat service
+          service:
+             name:  tomcat
+             state: restarted
