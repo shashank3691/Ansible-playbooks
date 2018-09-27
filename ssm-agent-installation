@@ -28,7 +28,7 @@
    - name: checking lsb version
      command: cat /etc/lsb-release
      register: version
-   - name: print the Register
+   - name: print the version variable
      debug:
         msg: "{{ version }}"
    - name: Enabling the ssm-agent service start on Reboot and starting ssm-agent service if ubuntu version is 16.04
