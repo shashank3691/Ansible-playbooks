@@ -1,0 +1,57 @@
+---
+- name: Install docker
+  gather_facts: No
+  become: true
+  hosts: localhost
+  tasks:
+    - name: creating the swarm cluster with init command
+      command: docker swarm init --advertise-addr 172.31.23.31
+      register: swarm
+
+#    - name: checking the commands that runs on localhost
+#      command: ls -l
+#      register: list
+
+#    - name: print the list
+#      debug:
+#        msg: "{{ list }}"
+
+    - name: generating the token for manager
+      shell: docker swarm join-token manager > manager-token
+
+    - name: greping the token for manager
+      shell: cat manager-token | grep docker
+      register: manager_token
+
+#    - name: Copy file from swaminit to managr
+#      shell: scp -r ec2-user@172.31.23.31:/home/ubuntu/file1.sh ec2-user@172.31.43.175:/home/ec2-user/
+#      delegate_to: 172.31.23.31
+
+    - name: print the manager_token variable
+      debug:
+        msg: "{{ manager_token.stdout }}"
+
+    - name: generating the token for worker
+      shell: docker swarm join-token worker > worker-token
+
+    - name: greping the token for worker
+      shell: cat worker-token | grep docker
+      register: worker_token
+
+#    - name: Copy file from swaminit to managr
+#      shell: scp -r /home/ubuntu/file2.sh ec2-user@172.31.16.6:/home/ec2-user/
+#      delegate_to: 172.31.23.31
+
+    - name: print the worker_token variable
+      debug:
+        msg: "{{ worker_token.stdout }}"
+
+    - name: executing the tokens to the manager group
+      command: "{{ manager_token.stdout }}"
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['appserver'] }}"
+
+    - name: executing the tokens to the worker group
+      command: "{{ worker_token.stdout }}"
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['workernode'] }}"
