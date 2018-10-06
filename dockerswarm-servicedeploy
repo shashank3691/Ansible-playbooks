@@ -12,11 +12,14 @@
           args:
             chdir: /project/
 
+        - name: create overlay network to estaablish communication between containers
+          command: docker network create -d overlay javahomecloud
+
         - name: Deploying the redis image  backend code to the docker swarm
-          command: docker service create -d --name redis redis
+          command: docker service create -d --network javahomecloud --name redis redis
 
         - name: Deploying the python front end services to handle multiple requests
-          command: docker service create -d -p 8080:5000 --name python-app --replicas 7 kammana/python-app:0.0.1
+          command: docker service create -d -p 8080:5000  --network=javahomecloud --name python-app --replicas 7 kammana/python-app:0.0.1
 
         - name: check the services of pythn app running in different containers
           command: docker service ps python-app
@@ -30,6 +33,6 @@
           command: docker service ps redis
           register: output1
 
-        - name: disply the  container id of redis
+        - name: disply the container id of redis
           debug:
             msg: "{{ output1 }}"
