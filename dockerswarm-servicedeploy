@@ -30,6 +30,6 @@
           command: docker service ps redis
           register: output1
 
-        - name: disply the container id of redis
+        - name: disply the  container id of redis
           debug:
             msg: "{{ output1 }}"
