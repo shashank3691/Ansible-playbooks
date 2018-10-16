@@ -6,7 +6,7 @@
          get_url:
              url: https://github.com/Netuitive/zorka/releases/download/v1.2.4/netuitive-zorka.zip
              dest: /opt/
-       - name: extrscting the tar file
+       - name: extrscting the t ar file
          unarchive:
              src: /opt/netuitive-zorka.zip
              dest: /opt/
