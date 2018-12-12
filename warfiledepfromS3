@@ -4,10 +4,10 @@
     tasks:
         - name: getting the artifact(.jar) from file
           aws_s3:
-            aws_access_key: AKIAJEJELV57LD46B5HTTBF
-            aws_secret_key: Og/FUSpofP3LZgcCPkJAIixEE99ZkxQceLybsjfbnjoenotlktbjn
+            aws_access_key: specify your access key in encrypted format(use ansible vault)
+            aws_secret_key: specify your secret access key in encrypted form(use ansible vault) 
             bucket: artifact-storage-bucket
-            object: doc1.txt
-            version: FnhKRBNAeNSWoOzNsUR_K1xv4snmOcvN
-            dest: /var/myfile.txt
+            object: specify your war file
+            version: FnhKRBNAeNSWoOzNsUR_K1xv4snmOcvN(specify the version from S3)
+            dest: /opt/tomcat/webapps/
             mode: get
