@@ -5,7 +5,7 @@ ZIP_DIR="/opt/mysql-backup/DBDUMP_ZIP/"  # The directory in which all dumpfiles 
 DUMP_MYSQL=true
 MYSQL_HOST="localhost"
 MYSQL_USER="root"
-MYSQL_PASSWD="Konnect2*"
+MYSQL_PASSWD="hvdhjbvf hqwe"
 # Construct Date
 MONTH="month-$(date '+%m')_"
 DAY="day-$(date '+%d')_"
@@ -33,7 +33,7 @@ echo "Backup Started: $(date)"
 
  if [ "$DUMP_MYSQL" = "true" ]
   then
-  mysqldump -u $MYSQL_USER -p2wsx1qaz  --databases database1 database2 database3 database4 database5 > $BACKUP_DIR$THE_DATE.sql
+  mysqldump -u $MYSQL_USER -p2wsx1qaz  --databases database1 database2 database3 > $BACKUP_DIR$THE_DATE.sql
   cd $BACKUP_DIR
   zip $ZIP_DIR$THE_DATE.zip $THE_DATE.sql
  fi
